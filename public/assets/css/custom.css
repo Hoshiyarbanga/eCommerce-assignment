@@ -1,0 +1,53 @@
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+a{
+  cursor: pointer;
+}
+.w-4 {
+  width: 1rem;
+}
+.h-4 {
+  height: 1rem;
+}
+
+.w-6 {
+  width: 1.5rem;
+}
+.h-6 {
+  height: 1.5rem;
+}
+
+.dropzone {
+  background: white;
+  border-radius: 5px;
+  border: 2px dashed rgb(0, 135, 247);
+  border-image: none;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+/* Custom CSS */
+.checkbox-container {
+  display: flex;
+  flex-direction: column;
+  padding: 0px 10px;
+}
+.form-check {
+  margin-bottom: 10px;
+}
+.form-check-input {
+  margin-right: 5px; 
+}
+.form-check-label {
+  font-weight: normal; 
+}
+.form-check-input:checked {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+.form-check-input:checked + .form-check-label {
+  color: #007bff;
+}
