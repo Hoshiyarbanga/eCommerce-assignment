@@ -11,6 +11,6 @@ class DescriptionController extends Controller
     public function index($id)
     {
         $products = Product::find($id);
-        return view('user.pages.home.description')->with(compact('products'));
+        return view('user.pages.home.description')->with(compact('products'));    
     }
 }

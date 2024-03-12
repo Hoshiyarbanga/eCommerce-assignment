@@ -7,7 +7,7 @@
         <div class="col-sm-12 empty-cart-cls text-center">
             <h3><strong>Your Cart is Empty</strong></h3>
             <h4>Add something to make me happy :)</h4>
-            <a href="#" class="btn btn-primary cart-btn-transform m-3" data-abc="true">continue shopping</a>
+            <a href="{{route('homepage')}}" class="btn btn-primary cart-btn-transform m-3" data-abc="true">continue shopping</a>
         </div>
     </div>
 </div>
@@ -58,9 +58,32 @@
                     <form method="POST" action="{{ route('delete-cart', ['id' => $cart->id]) }}">
                         @csrf
                         @method('DELETE')
-                        <button type="submit"
-                            onclick="return confirm('Are you sure, you want to delete this cart item?')"
-                            class="btn btn-sm btn-outline-danger">Remove</button>
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-sm btn-outline-danger" data-toggle="modal"
+                            data-target="#staticBackdrop_{{$cart->id}}">
+                            Remove
+                        </button>
+                        <div class="modal fade" id="staticBackdrop_{{$cart->id}}" data-backdrop="static" data-keyboard="false"
+                            tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        ...
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="reset" class="btn btn-secondary"
+                                            data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Understood</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </form>
                 </td>
             </tr>

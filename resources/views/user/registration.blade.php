@@ -16,61 +16,21 @@
 		<div class="card card-outline card-primary">
 			<div class="card-body">
 				<h3 class="login-box-msg">Sign up to start </h3>
-				<form action="{{route('register')}}" method="post">
+				<form action="{{route('store-user')}}" class="needs-validation" method="post" novalidate>
 					@csrf
 					<div class="input-group mt-3">
-						<input type="text" name="name" class="form-control" placeholder="Name" value="{{old('name')}}">
-						<div class="input-group-append">
-							<div class="input-group-text">
-								<span class="fas fa-user"></span>
-							</div>
-						</div>
-					</div>
-					<div class="error">
-						@error('name')
-						<p class="text-danger">{{$message}}</p>
-						@enderror
+						<input type="text" name="name" id="name" class="form-control" placeholder="Name" value="{{old('name')}}">
 					</div>
 					<div class="input-group mt-3">
-						<input type="tel" name="phone" class="form-control" placeholder="Phone"
+						<input type="tel" name="phone" maxlength="10" id="mobile" class="form-control" placeholder="Phone"
 							value="{{old('phone')}}">
-						<div class="input-group-append">
-							<div class="input-group-text">
-								<span class="fas fa-mobile"></span>
-							</div>
-						</div>
-					</div>
-					<div class="error">
-						@error('phone')
-						<p class="text-danger">{{$message}}</p>
-						@enderror
 					</div>
 					<div class="input-group mt-3">
-						<input type="email" name="email" class="form-control" placeholder="Email"
+						<input type="email" name="email" id="email" class="form-control" placeholder="Email"
 							value="{{old('email')}}">
-						<div class="input-group-append">
-							<div class="input-group-text">
-								<span class="fas fa-envelope"></span>
-							</div>
-						</div>
-					</div>
-					<div class="error">
-						@error('email')
-						<p class="text-danger">{{$message}}</p>
-						@enderror
 					</div>
 					<div class="input-group mt-3">
-						<input type="password" name="password" class="form-control" placeholder="Password">
-						<div class="input-group-append">
-							<div class="input-group-text">
-								<span class="fas fa-lock"></span>
-							</div>
-						</div>
-					</div>
-					<div class="error">
-						@error('password')
-						<p class="text-danger">{{$message}}</p>
-						@enderror
+						<input type="password" name="password" id="password" class="form-control" placeholder="Password">
 					</div>
 					<div class="row mt-3">
 						<div class="col-12">
@@ -79,7 +39,7 @@
 					</div>
 				</form>
 				<p class="mb-1 mt-3">
-					<a href="{{route('admin-login')}}">Already Have An Account</a>
+					<a href="{{route('user-login')}}">Already Have An Account</a>
 				</p>
 			</div>
 		</div>
@@ -88,6 +48,76 @@
 	<script src="{{asset('assets/js/bootstrap.bundle.min.js')}}"></script>
 	<script src="{{asset('assets/js/jquery.min.js')}}"></script>
 	<script src="{{asset('assets/js/demo.js')}}"></script>
+	<script>
+const signUpForm = () => {
+  const inputRegex = {
+      name: /^[A-Za-z]+$/,
+      mobile:/^[0-9]+$/ ,
+      email: /^[a-zA-Z0-9._%+-]+@[a-z.-]+\.[a-z]{3,}$/,
+      password:/^(?=.*\d)(?=.*[a-zA-Z]).{6,20}$/,
+  };
+  
+  Object.keys(inputRegex).forEach(id => {
+      const input = document.getElementById(id);
+      if (input) {
+          input.addEventListener('input', () => {
+              const regex = inputRegex[id];
+              const errorDiv = document.getElementById(`${id}-error`);
+              if (!regex.test(input.value)) {
+                  input.classList.add('is-invalid');
+                  if (!errorDiv) {
+                      const div = document.createElement('div');
+                      div.id = `${id}-error`;
+                      div.classList.add('invalid-feedback');
+                      div.innerText = `Please enter a valid ${id}.`;
+                      input.parentNode.insertBefore(div, input.nextSibling);
+                  }
+              } else {
+                  input.classList.remove('is-invalid');
+                  if (errorDiv) {
+                      errorDiv.remove();
+                  }
+              }
+          });
+      }
+  });
+  
+  const form = document.querySelector('.needs-validation');
+  if (form) {
+      form.addEventListener('submit', event => {
+          let isValid = true;
+          Object.keys(inputRegex).forEach(id => {
+              const input = document.getElementById(id);
+              const errorDiv = document.getElementById(`${id}-error`);
+              if (input && !inputRegex[id].test(input.value)) {
+                  input.classList.add('is-invalid');
+                  isValid = false;
+                  if (!errorDiv) {
+                      const div = document.createElement('div');
+                      div.id = `${id}-error`;
+                      div.classList.add('invalid-feedback');
+                      div.innerText = `Please enter a valid ${id}.`;
+                      input.parentNode.insertBefore(div, input.nextSibling);
+                  }
+              } else {
+                  input.classList.remove('is-invalid');
+                  if (errorDiv) {
+                      errorDiv.remove();
+                  }
+              }
+          });
+          
+          if (!isValid) {
+              event.preventDefault();
+              event.stopPropagation();
+          } else {
+              form.classList.add('was-validated');
+          }
+      }, false);
+  }
+};
+signUpForm();
+	</script>
 </body>
 
 </html>

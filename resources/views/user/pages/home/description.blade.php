@@ -1,6 +1,8 @@
 @extends('user.layout.app')
 @section('user-content')
 
+
+@if (isset($products->id))
 <div class="container-fluid main-a mt-4">
     <div class="row description">
 
@@ -43,4 +45,5 @@
         </div>
     </div>
 </div>
+@endif
 @stop
