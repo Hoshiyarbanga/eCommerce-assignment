@@ -31,7 +31,7 @@
       @foreach ($products as $product)
       <div class="col-lg-3  product mobiles">
         <a href="{{route('product-description',$product->id)}}">
-          <img src="{{ asset('images/' . $product->image) }}" alt="$product->image">
+          <img src="{{ asset('assets/images/products/'.$product->image) }}" alt="$product->image">
         </a>
         <h3>{{$product->title}}</h3>
         <h6>Now<i class="fas fa-rupee-sign"></i> Rs{{$product->price}}</h6>

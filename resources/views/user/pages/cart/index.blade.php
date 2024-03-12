@@ -40,7 +40,7 @@
             $id++;
             @endphp
             <tr class="productitm">
-                <td><img src="images/{{$cart->product->image}}" class="thumb"></td>
+                <td><img src="{{asset('assets/images/products/'.$cart->product->image) }}" class="thumb"></td>
                 <td class="d-flex align-items-center justify-content-center mt-2 pb-4">
                     <form action="{{route('decrement', $cart->id)}}" method="POST">
                         @csrf

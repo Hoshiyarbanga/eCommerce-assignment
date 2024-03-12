@@ -38,7 +38,7 @@ class ProductController extends Controller
             'quantity' => 'required',
         ]);
         $imageName = time() . '.' . request()->image->getClientOriginalExtension();
-        request()->image->move(public_path('images'), $imageName);
+        request()->image->move(public_path('assets/images/products'), $imageName);
         Product::create([
             'title' => $request->title, 'description' => $request->description,
             'price' => $request->price, 'image' => $imageName,

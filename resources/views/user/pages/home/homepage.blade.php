@@ -66,7 +66,7 @@
       @foreach ($products as $product)
       <div class="product mobiles">
         <a href="{{route('product-description',$product->id)}}">
-          <img src="images/{{$product->image}}" alt="mobile">
+          <img src="{{asset('assets/images/products/'.$product->image)}}" alt="mobile">
         </a>
         <h3>{{$product->title}}</h3>
         <h6>Now<i class="fas fa-rupee-sign"></i>{{$product->price}}</h6>
