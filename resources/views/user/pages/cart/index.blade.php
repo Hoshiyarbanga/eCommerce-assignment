@@ -20,7 +20,7 @@
                 @if (session()->has('success'))
                 <div class="alert alert-success" role="alert">
                     {{session()->get('success')}}
-                </div>yes
+                </div>
                 @endif
                 <th>Photo</th>
                 <th>Qty</th>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -40,4 +41,16 @@ class LoginController extends Controller
         Auth::logout();
         return redirect()->route('admin-login');
     }
+    public function forgot(Request $request)
+    {
+        $user = User::where('email', $request->email)->first();
+    
+        if (!$user) {
+            return redirect()->back()->with('Error', 'Email does not exist');
+        }
+        
+     
+
+    }
+    
 }

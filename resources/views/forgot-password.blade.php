@@ -16,12 +16,18 @@
 		<div class="card card-outline card-primary">
 			<div class="card-body">
 				<h3 class="login-box-msg">Log in </h3>
-				@if (session()->has('Error'))
+				@if (session()->has('error'))
 				<div class="alert alert-danger" role="alert">
-					{{session()->get('Error')}}
+					{{session()->get('error')}}
 				</div>
 				@endif
-				<form action="{{route('user-verify')}}" method="post">
+
+				@if (session()->has('success'))
+				<div class="alert alert-success" role="alert">
+					{{session()->get('success')}}
+				</div>
+				@endif
+				<form action="{{route('verify-user')}}" method="post">
 					@csrf
 					<div class="input-group mb-3">
 						<input type="text" class="form-control" name="email" placeholder="Email">
@@ -36,32 +42,17 @@
 						<p class="text-danger">{{$message}}</p>
 						@enderror
 					</div>
-					<div class="input-group mb-3">
-						<input type="password" name="password" class="form-control" placeholder="Password">
-						<div class="input-group-append">
-							<div class="input-group-text">
-								<span class="fas fa-lock"></span>
-							</div>
-						</div>
-					</div>
 					<div class="error">
 						@error('password')
 						<p class="text-danger">{{$message}}</p>
 						@enderror
 					</div>
-					<div class="row">
+                    <div class="row">
 						<div class="col-12">
-							<input type="hidden" name="URL" value="{{URL::previous()}}">
-							<button type="submit" class="btn btn-primary btn-block">Login</button>
+							<button type="submit" class="btn btn-primary btn-block">Send OTP</button>
 						</div>
 					</div>
 				</form>
-				<p class="mb-1 mt-3">
-					<a href="{{route('user-register')}}">Don't Have An Account</a>
-				</p>
-				<p class="mb-1 mt-3">
-					<a href="{{route('forget-password')}}">Forgot Password</a>
-				</p>
 			</div>
 		</div>
 	</div>

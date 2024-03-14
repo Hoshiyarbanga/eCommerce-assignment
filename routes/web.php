@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\RegisterController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SubCategoryController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\ForgetPasswordController;
 use App\Http\Controllers\User\CartController;
 use App\Http\Controllers\User\ChekoutController;
 use App\Http\Controllers\User\DescriptionController;
@@ -17,6 +18,7 @@ use App\Http\Controllers\User\OrderHistoryController;
 use App\Http\Controllers\User\UserLoginController;
 use App\Http\Controllers\User\UserRegisterController;
 use App\Models\SubCategory;
+use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,7 +33,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::group(['middleware'=>['auth']],function(){
+Route::group(['middleware'=>['auth','checkRole']],function(){
     Route::get('/add-user',[UserController::class,'create'])->name('add-user');
     Route::get('/edit-user/{id}',[UserController::class,'edit'])->name('edit-user'); 
     Route::get('/add-role',[RoleController::class,'create'])->name('add-role'); 
@@ -125,3 +127,8 @@ Route::group(['middleware'=>['checkAuth']],function(){
     Route::get('/order-detail/{id}',[OrderHistoryController::class,'detail'])->name('view-order-product');
 });
 
+Route::get('/forget-password',[ForgetPasswordController::class,'index'])->name('forget-password');
+Route::post('/verify-user',[ForgetPasswordController::class,'verify_user'])->name('verify-user');
+Route::get('reset/password/{token}',[ForgetPasswordController::class,'reset_password'])->name('reset-password');
+
+Route::post('/set-password', [ForgetPasswordController::class,'update_password'])->name('update-password');
