@@ -33,7 +33,7 @@ class CategoryController extends Controller
             'name' => $request->name, 'slug' => $request->slug,
             'image' => $imageName,
         ]);
-        return redirect()->back()->with('success', 'Category Created Successfully');
+        return redirect()->back()->with('success', __('messages.flash.create', ['var' => 'Category' ]));
     }
 
     public function edit($id)
@@ -53,12 +53,12 @@ class CategoryController extends Controller
             'name' => $request->name,
             'slug' => $request->slug,
         ]);
-        return redirect()->route('view-category')->with('update', 'Category Updated Successfully');
+        return redirect()->route('view-category')->with('update',  __('messages.flash.update', ['var' => 'Category' ]));
     }
 
     public function delete($id)
     {
         DB::table('categories')->where('id', $id)->delete();
-        return redirect()->back()->with('delete', 'Category Deleted Successfully');
+        return redirect()->back()->with('delete', __('messages.flash.delete', ['var' => 'Category' ]));
     }
 }

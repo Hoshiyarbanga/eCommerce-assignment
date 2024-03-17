@@ -27,6 +27,7 @@
 	<script src="{{asset('assets/js/bootstrap.bundle.min.js')}}"></script>
 	<script src="{{asset('assets/js/demo.js')}}"></script>
 	<script src="{{asset('assets/js/adminlte.min.js')}}"></script>
+	@yield('js')
 </body>
 
 </html>

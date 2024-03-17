@@ -9,6 +9,8 @@ use App\Http\Controllers\Admin\RegisterController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SubCategoryController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Auth\PasswordController;
+use App\Http\Controllers\Auth\ProfileController;
 use App\Http\Controllers\ForgetPasswordController;
 use App\Http\Controllers\User\CartController;
 use App\Http\Controllers\User\ChekoutController;
@@ -48,6 +50,10 @@ Route::group(['middleware'=>['auth','checkRole']],function(){
     Route::get('/orders',[OrderController::class,'index'])->name('seller-orders');
     Route::get('/order-details/{id}',[OrderController::class,'orderDetail'])->name('order-detail');
     Route::post('/update-status/{id}',[OrderController::class,'update'])->name('update-status');
+    Route::get('/admin/profile',[ProfileController::class,'profile'])->name('admin-profile');
+    Route::post('/upadte/profile/{id}',[ProfileController::class,'update'])->name('update-profile');
+    Route::get('/change/password',[PasswordController::class,'index'])->name('change-password');
+    Route::post('update/password/{id}',[PasswordController::class,'update'])->name('update-password1');
 });
 
 Route::group(['middleware'=>['guest']],function(){

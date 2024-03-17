@@ -35,7 +35,7 @@ class UserController extends Controller
         if (!empty($roles)) {
             $user->roles()->attach($roles);
         }
-        return redirect()->back()->with('Success', 'User Created Successfully');
+        return redirect()->back()->with('Success',  __('messages.flash.create', ['var' => 'User' ]));
     }
 
     public function edit($id)
@@ -70,12 +70,12 @@ class UserController extends Controller
         if (!empty($roles)) {
             $user->roles()->attach($roles);
         }
-        return redirect()->route('view-users')->with('Update', 'User Updated Successfully');
+        return redirect()->route('view-users')->with('Update',  __('messages.flash.update', ['var' => 'User' ]));
     }
 
     public function delete($id)
     {
         DB::table('users')->where('id', $id)->delete();
-        return redirect()->back()->with('delete', 'User Deleted Succesfully');
+        return redirect()->back()->with('delete',  __('messages.flash.delete', ['var' => 'User' ]));
     }
 }

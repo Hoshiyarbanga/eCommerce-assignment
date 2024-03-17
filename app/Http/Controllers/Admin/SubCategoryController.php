@@ -33,7 +33,7 @@ class SubCategoryController extends Controller
             'name' => $request->name,
             'slug' => $request->slug, 'category_id' => $request->category_id,
         ]);
-        return redirect()->back()->with('success', 'Sub-Category Created Successfully');
+        return redirect()->back()->with('success',  __('messages.flash.create', ['var' => 'Sub-category' ]));
     }
 
     public function edit($id)
@@ -56,12 +56,12 @@ class SubCategoryController extends Controller
             'slug' => $request->slug,
             'category_id' => $request->category_id,
         ]);
-        return redirect()->route('view-sub-category')->with('update', 'Sub-Category Updated Successfully');
+        return redirect()->route('view-sub-category')->with('update',  __('messages.flash.update', ['var' => 'Sub-category' ]));
     }
 
     public function delete($id)
     {
         DB::table('sub_categories')->where('id', $id)->delete();
-        return redirect()->back()->with('delete', 'Sub-Category Deleted Successfully');
+        return redirect()->back()->with('delete',  __('messages.flash.delete', ['var' => 'SUb-category' ]));
     }
 }

@@ -37,6 +37,6 @@ class OrderController extends Controller
     $status->update([
       'status' => $request->status,
     ]);
-    return redirect()->back()->with('success', 'Status updated successfully');
+    return redirect()->back()->with('success',  __('messages.flash.update', ['var' => 'Order' ]));
   }
 }

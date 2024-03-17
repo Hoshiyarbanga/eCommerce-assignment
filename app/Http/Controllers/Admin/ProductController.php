@@ -46,7 +46,7 @@ class ProductController extends Controller
             'quantity' => $request->quantity,
             'user_id' => Auth::user()->id,
         ]);
-        return redirect()->back()->with('success', 'Product Added Successully');
+        return redirect()->back()->with('success',  __('messages.flash.create', ['var' => 'Product' ]));
     }
 
     public function edit($id)
@@ -75,12 +75,12 @@ class ProductController extends Controller
             'quantity' => $request->quantity,
             'user_id' => Auth::user()->id,
         ]);
-        return redirect()->route('view-products')->with('update', 'Product Updated Successfully');
+        return redirect()->route('view-products')->with('update',  __('messages.flash.update', ['var' => 'Product' ]));
     }
 
     public function delete($id)
     {
         DB::table('products')->where('id', $id)->delete();
-        return redirect()->back()->with('delete', 'Product Deleted Successfully');
+        return redirect()->back()->with('delete',  __('messages.flash.delete', ['var' => 'Product' ]));
     }
 }

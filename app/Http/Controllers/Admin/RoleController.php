@@ -33,7 +33,7 @@ class RoleController extends Controller
         if (!empty($permissions)) {
             $role->permissions()->attach($permissions);
         }
-        return redirect()->back()->with('Success', 'Role Created Successfully');
+        return redirect()->back()->with('Success',  __('messages.flash.create', ['var' => 'Role' ]));
     }
 
     public function edit($id)
@@ -64,7 +64,7 @@ class RoleController extends Controller
             $role->permissions()->attach($permissions);
         }
 
-        return redirect()->route('view-role')->with('update', 'Role Updated Successfully');
+        return redirect()->route('view-role')->with('update',  __('messages.flash.update', ['var' => 'Role' ]));
     }
 
     public function delete($id)
@@ -74,6 +74,6 @@ class RoleController extends Controller
             DB::table('role_permissions')->where('role_id', $id)->delete();
         }
         DB::table('roles')->where('id', $id)->delete();
-        return redirect()->route('view-role')->with('delete', 'Role Deleted Successully');
+        return redirect()->route('view-role')->with('delete',  __('messages.flash.delete', ['var' => 'Role' ]));
     }
 }
