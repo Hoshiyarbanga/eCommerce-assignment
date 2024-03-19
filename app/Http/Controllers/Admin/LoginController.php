@@ -22,8 +22,15 @@ class LoginController extends Controller
             'password' => 'required',
         ]);
         $credendials = $request->only('email', 'password');
-        if (Auth::attempt($credendials)) {
+        if (Auth::attempt($credendials)){
             $user = Auth::user();
+            if($user->status === 'inactive'){
+                Auth::logout();
+                return redirect()->back()->with('Error', 'Your accound is not verified yet please check mail and verify first');
+            }else if($user->status === 'block'){
+                Auth::logout();
+                return redirect()->back()->with('Error', 'Your accound is blocked pls contact admin');
+            }
             if ($user->hasRole('admin', 'vander')) {
                 return redirect()->route('view-dashboard');
             } else {
@@ -34,23 +41,17 @@ class LoginController extends Controller
             return redirect()->back()->with('Error', 'Email/Password is incorrect');
         }
     }
-
-
+    
     public function logout()
     {
         Auth::logout();
         return redirect()->route('admin-login');
     }
-    public function forgot(Request $request)
-    {
-        $user = User::where('email', $request->email)->first();
-    
-        if (!$user) {
-            return redirect()->back()->with('Error', 'Email does not exist');
-        }
-        
-     
-
-    }
-    
+    // public function forgot(Request $request)
+    // {
+    //     $user = User::where('email', $request->email)->first();
+    //     if (!$user) {
+    //         return redirect()->back()->with('Error', 'Email does not exist');
+    //     }
+    // }  
 }

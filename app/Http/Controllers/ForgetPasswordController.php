@@ -41,7 +41,7 @@ class ForgetPasswordController extends Controller
         }
         $tokenString = $token->token;
         $escapedToken = htmlspecialchars($tokenString);
-       return view('emails.reset-password')->with(compact('escapedToken'));
+       return view('reset-password')->with(compact('escapedToken'));
     }
 
     public function update_password(Request $request){

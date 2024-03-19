@@ -58,6 +58,9 @@
 				<p class="mb-1 mt-3">
 					<a href="{{route('admin-register')}}">Don't Have An Account</a>
 				</p>
+				<p class="mb-1 mt-3">
+					<a href="{{route('forget-password')}}">Forgot Password</a>
+				</p>
 			</div>
 		</div>
 	</div>
