@@ -41,8 +41,9 @@
                             <div class="mb-3">
                                 <label for="status">Status</label>
                                 <select name="status" id="form">
-                                    <option value="active">active</option>
-                                    <option value="block">block</option>
+                                    <option value='active' {{ $user->status === 'active' ? 'selected' : '' }}>active</option>
+                                    <option value='inactive' {{ $user->status === 'inactive' ? 'selected' : '' }}>inactive</option>
+                                    <option value='block' {{ $user->status === 'block' ? 'selected' : '' }}>block</option>
                                 </select>
                             </div>
                         </div>

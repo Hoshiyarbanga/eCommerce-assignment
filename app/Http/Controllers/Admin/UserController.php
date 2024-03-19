@@ -64,7 +64,7 @@ class UserController extends Controller
             'name' => $request->name,
             'phone' => $request->phone,
             'email' => $request->email,
-            'status' => $request->status,
+            'status' =>$request->status,
         ]);
         $roles = $request->input('role');
         if (!empty($roles)) {

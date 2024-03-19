@@ -6,9 +6,14 @@
     </ul>
     <ul class="navbar-nav ml-auto">
         <li class="nav-item">
-            <a class="nav-link" data-widget="fullscreen" href="#" role="button">
-                <i class="fas fa-expand-arrows-alt"></i>
-            </a>
+          <form action="{{ route('setLocale')}}" method="post ">
+            @csrf
+          <select name="locale" id="" onchange="this.form.submit()" class="form-control">
+            <option value="" selected disabled>Change Language</option>
+            <option value="en">ENGLISH</option>
+            <option value="es">Spansin</option>
+          </select>
+        </form>
         </li>
         <li class="nav-item dropdown">
             <a class="nav-link p-0 pr-3" data-toggle="dropdown" href="#">
@@ -16,7 +21,7 @@
                     alt="">
             </a>
 
-            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right p-3">
+            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right p-3" >
                 <h4 class="h4 mb-0"><strong>{{ Auth::user()->name}}</strong></h4>
                 <div class="mb-3">{{ Auth::user()->email }}</div>
                 <div class="dropdown-divider"></div>
@@ -32,7 +37,6 @@
                     @csrf
                     <button class="dropdown-item text-danger" type="submit">Logout <i
                             class="fas fa-sign-out-alt mr-2"></i></button>
-
                 </form>
             </div>
         </li>

@@ -17,8 +17,9 @@ return new class extends Migration
             $table->string('phone', 12);
             $table->string('email')->unique();
             $table->string('password');
-            $table->enum('status',['active', 'deactive', 'pending'])->default('active');
+            $table->enum('status', ['active', 'inactive','block'])->default('inactive');
             $table->rememberToken();
+            $table->timestamp('email_verified_at')->nullable();
             $table->timestamps();
         });
     }

@@ -1,5 +1,6 @@
 <?php
-
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\LoginController;
@@ -20,8 +21,8 @@ use App\Http\Controllers\User\OrderHistoryController;
 use App\Http\Controllers\User\UserLoginController;
 use App\Http\Controllers\User\UserRegisterController;
 use App\Models\SubCategory;
-use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
 
 /*
 |--------------------------------------------------------------------------
@@ -136,5 +137,27 @@ Route::group(['middleware'=>['checkAuth']],function(){
 Route::get('/forget-password',[ForgetPasswordController::class,'index'])->name('forget-password');
 Route::post('/verify-user',[ForgetPasswordController::class,'verify_user'])->name('verify-user');
 Route::get('reset/password/{token}',[ForgetPasswordController::class,'reset_password'])->name('reset-password');
+Route::any('verify/password/{token}',[RegisterController::class,'verifyUser'])->name('vu');
 
 Route::post('/set-password', [ForgetPasswordController::class,'update_password'])->name('update-password');
+
+
+
+Route::get('/lang', function(Request $request){
+    if (! in_array($request->locale, ['en', 'es'])) {
+        abort(400, 'Invalid locale');
+    }
+    //    dd($request->locale);    
+    $app = $request->locale;
+    App::setLocale($app);
+     
+    Session::put('local',$app);
+    
+    // Store the locale in session
+    // $request->session()->put('locale', $request->locale);
+
+    // Redirect back or to a specific route
+    return redirect()->back();
+})->name('setLocale');
+
+
