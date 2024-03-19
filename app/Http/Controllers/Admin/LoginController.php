@@ -41,17 +41,10 @@ class LoginController extends Controller
             return redirect()->back()->with('Error', 'Email/Password is incorrect');
         }
     }
-    
+
     public function logout()
     {
         Auth::logout();
         return redirect()->route('admin-login');
-    }
-    // public function forgot(Request $request)
-    // {
-    //     $user = User::where('email', $request->email)->first();
-    //     if (!$user) {
-    //         return redirect()->back()->with('Error', 'Email does not exist');
-    //     }
-    // }  
+    } 
 }

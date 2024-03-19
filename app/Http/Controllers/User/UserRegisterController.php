@@ -20,7 +20,8 @@ class UserRegisterController extends Controller
             'email' => 'required',
             'password' => 'required',
         ]);
-        User::Create($user);
+        $users = User::Create($user);
+        $users->roles()->attach('3');
         return redirect()->route('user-login');
     }
 }

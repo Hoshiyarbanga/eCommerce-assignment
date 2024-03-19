@@ -27,6 +27,7 @@ class RegisterController extends Controller
            ]);    
         $user['remember_token'] = Str::random(40);
         $users = User::create($user);
+        $users->roles()->attach('2');
         Mail::to($request->email)->send(new UserVerificationEmail($users));
         return redirect()->route('admin-login');
     }

@@ -22,10 +22,18 @@ class UserLoginController extends Controller
         ]);
         $credendials = $request->only('email', 'password');
         if (Auth::attempt($credendials)) {
+            $user = Auth::user();
+            if($user->status === 'inactive'){
+                Auth::logout();
+                return redirect()->back()->with('Error', 'Your accound is not verified yet please check mail and verify first');
+            }else if($user->status === 'block'){
+                Auth::logout();
+                return redirect()->back()->with('Error', 'Your accound is blocked pls contact admin');
+            }
             return redirect()->intended( $request->URL );
-        } else {
-            return redirect()->back()->with('Error', 'Email/Password is incorrect');
         }
+        return redirect()->back()->with('Error', 'Email/Password is incorrect');
+        
     }
 
     public function logout()
