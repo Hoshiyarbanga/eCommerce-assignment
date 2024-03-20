@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Permission;
 use App\Models\Role;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -33,7 +34,7 @@ class RoleController extends Controller
         if (!empty($permissions)) {
             $role->permissions()->attach($permissions);
         }
-        return redirect()->back()->with('Success',  __('messages.flash.create', ['var' => 'Role' ]));
+        return redirect()->back()->with('Success',  __('messages.flash.create', ['var' => 'Role']));
     }
 
     public function edit($id)
@@ -46,25 +47,31 @@ class RoleController extends Controller
 
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'name' => 'required',
-            'slug' => 'required',
-        ]);
-        $role = Role::where('id', $id)->first();
-        $permissions = Permission::get();
-        foreach ($role as $a) {
-            DB::table('role_permissions')->where('role_id', $id)->delete();
+        try {
+            DB::beginTransaction();
+            $request->validate([
+                'name' => 'required',
+                'slug' => 'required',
+            ]);
+            $role = Role::where('id', $id)->first();
+            $permissions = Permission::get();
+            foreach ($role as $a) {
+                DB::table('role_permissions')->where('role_id', $id)->delete();
+            }
+            $role->update([
+                'name' => $request->name,
+                'slug' => $request->slug,
+            ]);
+            $permissions = $request->input('permissions');
+            if (!empty($permissions)) {
+                $role->permissions()->attach($permissions);
+            }
+            DB::commit();
+            return redirect()->route('view-role')->with('update',  __('messages.flash.update', ['var' => 'Role']));
+        } catch (Exception $e) {
+            DB::rollBack();
+            return redirect()->route('view-role')->with('Error', 'Role not update , something went wron');
         }
-        $role->update([
-            'name' => $request->name,
-            'slug' => $request->slug,
-        ]);
-        $permissions = $request->input('permissions');
-        if (!empty($permissions)) {
-            $role->permissions()->attach($permissions);
-        }
-
-        return redirect()->route('view-role')->with('update',  __('messages.flash.update', ['var' => 'Role' ]));
     }
 
     public function delete($id)
@@ -74,6 +81,6 @@ class RoleController extends Controller
             DB::table('role_permissions')->where('role_id', $id)->delete();
         }
         DB::table('roles')->where('id', $id)->delete();
-        return redirect()->route('view-role')->with('delete',  __('messages.flash.delete', ['var' => 'Role' ]));
+        return redirect()->route('view-role')->with('delete',  __('messages.flash.delete', ['var' => 'Role']));
     }
 }

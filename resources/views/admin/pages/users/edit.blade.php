@@ -30,21 +30,11 @@
                                     placeholder="Email">
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <div class="mb-3">
                                 <label for="phone">Phone</label>
                                 <input type="text" name="phone" id="phone" value="{{$user->phone}}" class="form-control"
                                     placeholder="Phone">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="status">Status</label>
-                                <select name="status" id="form">
-                                    <option value='active' {{ $user->status === 'active' ? 'selected' : '' }}>active</option>
-                                    <option value='inactive' {{ $user->status === 'inactive' ? 'selected' : '' }}>inactive</option>
-                                    <option value='block' {{ $user->status === 'block' ? 'selected' : '' }}>block</option>
-                                </select>
                             </div>
                         </div>
                         <div class="checkbox-container">

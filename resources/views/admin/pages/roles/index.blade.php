@@ -28,6 +28,11 @@
                     {{session()->get('delete')}}
                 </div>
                 @endif
+                @if (session()->has('Error'))
+                <div class="col-md-12 alert alert-danger" role="alert">
+                    {{session()->get('Error')}}
+                </div>
+                @endif
                 <table class="table table-hover text-nowrap">
                     <thead>
                         <tr>

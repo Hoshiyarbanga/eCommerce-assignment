@@ -38,6 +38,7 @@ use Illuminate\Support\Facades\Session;
 
 Route::group(['middleware'=>['auth','checkRole']],function(){
     Route::get('/add-user',[UserController::class,'create'])->name('add-user');
+    Route::post('/update-users/{id}',[UserController::class,'updateStatus'])->name('update_users');
     Route::get('/edit-user/{id}',[UserController::class,'edit'])->name('edit-user'); 
     Route::get('/add-role',[RoleController::class,'create'])->name('add-role'); 
     Route::get('/edit-role/{id}',[RoleController::class,'edit'])->name('edit-role');

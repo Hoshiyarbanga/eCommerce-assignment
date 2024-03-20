@@ -78,4 +78,12 @@ class UserController extends Controller
         DB::table('users')->where('id', $id)->delete();
         return redirect()->back()->with('delete',  __('messages.flash.delete', ['var' => 'User' ]));
     }
+    public function updateStatus(Request $request, $id)
+    {
+      $status = User::where('id', $id)->first();
+      $status->update([
+        'status' => $request->status,
+      ]);
+      return redirect()->back()->with('success',  __('messages.flash.update', ['var' => 'Order' ]));
+    }
 }
