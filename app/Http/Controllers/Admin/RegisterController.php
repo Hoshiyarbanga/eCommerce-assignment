@@ -9,37 +9,47 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
+use Exception;
 
 class RegisterController extends Controller
 {
     public function register()
     {
-        return view('admin.register');
+            return view('admin.register');
     }
 
     public function store(Request $request)
     {
-        $user = $request->validate([
-            'name' => 'required',
-            'phone' => 'required',
-            'email' => 'required',
-            'password' => 'required',
-           ]);    
-        $user['remember_token'] = Str::random(40);
-        $users = User::create($user);
-        $users->roles()->attach('2');
-        Mail::to($request->email)->send(new UserVerificationEmail($users));
-        return redirect()->route('admin-login');
-    }
-    public function verifyUser($token){
-        $user = User::where('remember_token',$token)->first();
-        if(!$user){
-            abort(419);
+        try {
+            $user = $request->validate([
+                'name' => 'required',
+                'phone' => 'required',
+                'email' => 'required',
+                'password' => 'required',
+            ]);
+            $user['remember_token'] = Str::random(40);
+            $users = User::create($user);
+            $users->roles()->attach('2');
+            Mail::to($request->email)->send(new UserVerificationEmail($users));
+            return redirect()->route('admin-login');
+        } catch (Exception $e) {
+            return abort(401);
         }
-        $user->update([
-         'status'=>'active',
-         'email_verified_at'=> Carbon::now(),
-         'remember_token'=>null,
-        ]);
+    }
+    public function verifyUser($token)
+    {
+        try {
+            $user = User::where('remember_token', $token)->first();
+            if (!$user) {
+                abort(419);
+            }
+            $user->update([
+                'status' => 'active',
+                'email_verified_at' => Carbon::now(),
+                'remember_token' => null,
+            ]);
+        } catch (Exception $e) {
+            return abort(401);
+        }
     }
 }

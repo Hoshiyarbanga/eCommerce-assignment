@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\SubCategory;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -24,16 +25,20 @@ class SubCategoryController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'slug' => 'required',
-            'category_id' => 'required',
-        ]);
-        SubCategory::create([
-            'name' => $request->name,
-            'slug' => $request->slug, 'category_id' => $request->category_id,
-        ]);
-        return redirect()->back()->with('success',  __('messages.flash.create', ['var' => 'Sub-category' ]));
+        try {
+            $request->validate([
+                'name' => 'required',
+                'slug' => 'required',
+                'category_id' => 'required',
+            ]);
+            SubCategory::create([
+                'name' => $request->name,
+                'slug' => $request->slug, 'category_id' => $request->category_id,
+            ]);
+            return redirect()->back()->with('success',  __('messages.flash.create', ['var' => 'Sub-category']));
+        } catch (Exception $e) {
+            return abort(401);
+        }
     }
 
     public function edit($id)
@@ -45,23 +50,31 @@ class SubCategoryController extends Controller
 
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'name' => 'required',
-            'slug' => 'required',
-            'category_id' => 'required',
-        ]);
-        $category = SubCategory::where('id', $id)->first();
-        $category->update([
-            'name' => $request->name,
-            'slug' => $request->slug,
-            'category_id' => $request->category_id,
-        ]);
-        return redirect()->route('view-sub-category')->with('update',  __('messages.flash.update', ['var' => 'Sub-category' ]));
+        try {
+            $request->validate([
+                'name' => 'required',
+                'slug' => 'required',
+                'category_id' => 'required',
+            ]);
+            $category = SubCategory::where('id', $id)->first();
+            $category->update([
+                'name' => $request->name,
+                'slug' => $request->slug,
+                'category_id' => $request->category_id,
+            ]);
+            return redirect()->route('view-sub-category')->with('update',  __('messages.flash.update', ['var' => 'Sub-category']));
+        } catch (Exception $e) {
+            return abort(401);
+        }
     }
 
     public function delete($id)
     {
-        DB::table('sub_categories')->where('id', $id)->delete();
-        return redirect()->back()->with('delete',  __('messages.flash.delete', ['var' => 'SUb-category' ]));
+        try {
+            DB::table('sub_categories')->where('id', $id)->delete();
+            return redirect()->back()->with('delete',  __('messages.flash.delete', ['var' => 'SUb-category']));
+        } catch (Exception $e) {
+            return abort(402);
+        }
     }
 }
