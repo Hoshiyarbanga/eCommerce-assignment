@@ -26,7 +26,7 @@
           @foreach ($orders as $order)
           <tr class="cell-1">
             <td>{{$order->id}}</td>
-            <td><img src="images/{{$order->product->image}}" class="card" width="50px" height="50px" alt="order_ing">
+            <td><img src="assets/images/products/{{$order->product->image}}" class="card" width="50px" height="50px" alt="order_ing">
             </td>
             <td><a href="{{route('view-order-product',['id'=>$order->product->id])}}">{{$order->product->title}}</a>
             </td>

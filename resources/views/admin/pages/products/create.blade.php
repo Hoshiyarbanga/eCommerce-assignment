@@ -58,7 +58,7 @@
 
                                 <div class="col-md-4 mb-3">
                                     <label for="category">Category</label>
-                                    <select name="category" id="category" class="form-control">
+                                    <select name="category" id="categorySelect" class="form-control">
                                         @foreach ($categories as $category)
                                         <option value="{{$category->id}}">{{$category->name}}</option>
                                         @endforeach
@@ -66,7 +66,7 @@
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label for="category">Sub category</label>
-                                    <select name="sub_category" id="sub_category" class="form-control">
+                                    <select name="sub_category" id="select" class="form-control">
                                         @foreach ($sub_cat as $cat)
                                         <option value="{{$cat->id}}">{{$cat->name}}</option>
                                         @endforeach
@@ -84,4 +84,10 @@
         </form>
     </div>
 </section>
-@stop
+@endsection
+@section('js')
+<script type="text/javascript">
+
+
+</script>
+@endsection

@@ -18,7 +18,7 @@ class AdminSeeder extends Seeder
             'email'=>'admin@gmail.com',
             'phone'=>'9882314579',
             'password' => bcrypt('admin123'),
-            // 'status'=>'active',
+            'status'=>'active',
         ]);
 
         $vander = User::create([
@@ -26,7 +26,7 @@ class AdminSeeder extends Seeder
             'email'=>'vander@gmail.com',
             'phone'=>'9882314579',
             'password' => bcrypt('vander123'),
-            // 'status'=>'active',
+            'status'=>'active',
         ]);
 
         $user = User::create([
@@ -34,7 +34,7 @@ class AdminSeeder extends Seeder
             'email'=>'user@gmail.com',
             'phone'=>'9882314579',
             'password' => bcrypt('user123'),
-            // 'status'=>'active',
+            'status'=>'active',
         ]);
     }
 }

@@ -12,7 +12,7 @@
 
         <div class="col-lg-5 col-md-5">
             <div class="product-img">
-                <img id="thumbnail" src="{{ asset('images/' . $products->image) }}" alt="Product Image"
+                <img id="thumbnail" src="{{ asset('assets/images/products/' . $products->image) }}" alt="Product Image"
                     class="img-fluid">
             </div>
         </div>

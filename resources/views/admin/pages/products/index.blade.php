@@ -51,7 +51,7 @@
                         @endphp
                         <tr>
                             <td>{{$id}}</td>
-                            <td><img src="images/{{$product->image}}" class="img-thumbnail" width="50"></td>
+                            <td><img src="assets/images/products/{{$product->image}}" class="img-thumbnail" width="50"></td>
                             <td><a href="#">{{$product->title}}</a></td>
                             <td>Rs {{$product->price}}</td>
                             <td>{{$product->quantity}} left in Stock</td>

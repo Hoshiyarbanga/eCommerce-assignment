@@ -32,7 +32,7 @@
                         @foreach ($orders as $order)
                         <tr>
                             <th scope="row">{{$order->product->id}}</th>
-                            <th><img src="{{ asset('images/' . $order->product->image) }}" width="50px" height="50px">
+                            <th><img src="{{ asset('assets/images/products/' . $order->product->image) }}" width="50px" height="50px">
                             </th>
                             <td>{{$order->product->title}}</td>
                             <td>{{$order->product_quantity}}</td>
