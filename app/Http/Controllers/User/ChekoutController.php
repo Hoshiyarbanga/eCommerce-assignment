@@ -27,17 +27,17 @@ class ChekoutController extends Controller
     {
         try {
             DB::beginTransaction();
-            $request->validate([
+            $abc =  $request->validate([
                 'name' => 'required',
                 'mobile' => 'required',
-                'pin_code' => 'required',
-                'area' => 'required',
+                'postcode' => 'required',
+                'area_address_search' => 'required',
                 'state' => 'required',
                 'landmark' => 'required',
-            ]);
+            ]);          
             $address = Address::create([
                 'name' => $request->name, 'mobile' => $request->mobile,
-                'pin_code' => $request->pin_code, 'area' => $request->area, 'city' => $request->city,
+                'pin_code' => $request->postcode, 'area' =>$request->area_address_search, 'city' => $request->city,
                 'state' => $request->state, 'landmark' => $request->landmark, 'address-type' => $request->address_type,
                 'user_id' => Auth::user()->id,
             ]);

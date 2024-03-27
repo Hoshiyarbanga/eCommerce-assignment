@@ -34,7 +34,20 @@ use Illuminate\Support\Facades\Session;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+//AIzaSyBwo2Qx83HErr2gxjwcQqqRBtBOaNAakZ8
+//AIzaSyBwo2Qx83HErr2gxjwcQqqRBtBOaNAakZ8
+Route::get('/abc',function(){
+    return view('abc');
+});
 
+Route::post('/fetch-states/{id}' , function($category_id = null){
+    $states = SubCategory::where('category_id' , $category_id)->get();
+    // dd($states);
+    return response()->json([
+        'status' => 1,
+        'states' => $states
+    ]);
+});
 
 Route::group(['middleware'=>['auth','checkRole']],function(){
     Route::get('/add-user',[UserController::class,'create'])->name('add-user');
@@ -117,7 +130,7 @@ Route::group(['middleware'=>['guest']],function(){
     Route::get('/product-description/{id}',[DescriptionController::class,'index'])->name('product-description');
     Route::get('/subcategory/{subcat}',[HomeController::class,'abc'])->name('abc');
 
-Route::group(['middleware'=>['checkAuth']],function(){
+Route::group(['middleware'=>['checkAuth','checkRequest']],function(){
     Route::post('/user/logout',[UserLoginController::class,'logout'])->name('user-logout');
     //carts
     Route::get('/cart',[CartController::class,'index'])->name('cart');
@@ -147,17 +160,10 @@ Route::post('/set-password', [ForgetPasswordController::class,'update_password']
 Route::get('/lang', function(Request $request){
     if (! in_array($request->locale, ['en', 'es'])) {
         abort(400, 'Invalid locale');
-    }
-    //    dd($request->locale);    
+    }   
     $app = $request->locale;
-    App::setLocale($app);
-     
+    App::setLocale($app);   
     Session::put('local',$app);
-    
-    // Store the locale in session
-    // $request->session()->put('locale', $request->locale);
-
-    // Redirect back or to a specific route
     return redirect()->back();
 })->name('setLocale');
 

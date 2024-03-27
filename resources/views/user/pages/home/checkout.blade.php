@@ -28,37 +28,37 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="mb-3">
-                                        <label for="price">Pin code</label>
-                                        <input type="number" name="pin_code" id="pin-code" class="form-control"
-                                            placeholder="Pin Code">
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="mb-3">
                                         <label for="price">Area</label>
                                         <input type="text" name="area" id="area" class="form-control"
-                                            placeholder="Area">
+                                            placeholder="Area" autocomplete="address-line1">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="mb-3">
                                         <label for="price">city</label>
                                         <input type="text" name="city" id="city" class="form-control"
-                                            placeholder="City">
+                                            placeholder="City" autocomplete="address-level2">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="mb-3">
                                         <label for="price">State</label>
                                         <input type="text" name="state" id="state" class="form-control"
-                                            placeholder="State">
+                                            placeholder="State" autocomplete="address-level1">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="mb-3">
                                         <label for="price">landmark</label>
-                                        <input type="text" name="landmark" id="landmark" class="form-control"
+                                        <input type="text" name="landmark" id="country" class="form-control"
                                             placeholder="Landmark">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <label for="price">Pin code</label>
+                                        <input type="number" name="postcode" id="pin-code" class="form-control"
+                                            placeholder="Pin Code" autocomplete="postal-code">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -151,4 +151,69 @@
         </form>
     </div>
 </section>
-@stop
+@endsection
+@section('js')
+<script id="search-js" defer src="https://api.mapbox.com/search-js/v1.0.0-beta.19/web.js"></script>
+    <script>
+        const script = document.getElementById('search-js');
+        script.onload = function() {
+            mapboxsearch.autofill({
+                accessToken: 'pk.eyJ1IjoiZGl0c3RlayIsImEiOiJjbHFkcmNpeWEwZGN1MmpvN2ZxaTZmaDN2In0.qO9Vxdblj9luFY5xNQlMcw',
+                //     options: {
+                //     country: 'us'
+                // }
+            });      
+            };
+    </script> 
+<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+<script type="text/javascript">
+  $(function() {
+    var $form = $(".require-validation");
+    $('form.require-validation').bind('submit', function(e) {
+      var $form = $(".require-validation"),
+        inputSelector = ['input[type=email]', 'input[type=password]',
+          'input[type=text]', 'input[type=file]',
+          'textarea'
+        ].join(', '),
+        $inputs = $form.find('.required').find(inputSelector),
+        $errorMessage = $form.find('div.error'),
+        valid = true;
+      $errorMessage.addClass('hide');
+      $('.has-error').removeClass('has-error');
+      $inputs.each(function(i, el) {
+        var $input = $(el);
+        if ($input.val() === '') {
+          $input.parent().addClass('has-error');
+          $errorMessage.removeClass('hide');
+          e.preventDefault();
+        }
+      });
+      if (!$form.data('cc-on-file')) {
+        e.preventDefault();
+        Stripe.setPublishableKey($form.data('stripe-publishable-key'));
+        Stripe.createToken({
+          number: $('.card-number').val(),
+          cvc: $('.card-cvc').val(),
+          exp_month: $('.card-expiry-month').val(),
+          exp_year: $('.card-expiry-year').val()
+        }, stripeResponseHandler);
+      }
+    });
+
+    function stripeResponseHandler(status, response) {
+      if (response.error) {
+        $('.error')
+          .removeClass('hide')
+          .find('.alert')
+          .text(response.error.message);
+      } else {
+        /* token contains id, last4, and card type */
+        var token = response['id'];
+        $form.find('input[type=text]').empty();
+        $form.append("<input type='hidden' name='stripeToken' value='" + token + "'/>");
+        $form.get(0).submit();
+      }
+    }
+  });
+</script>
+@endsection

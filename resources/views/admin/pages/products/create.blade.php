@@ -55,28 +55,27 @@
                         <div class="card-body">
                             <h2 class="h4  mb-3">Product category</h2>
                             <div class="row">
-
                                 <div class="col-md-4 mb-3">
                                     <label for="category">Category</label>
-                                    <select name="category" id="categorySelect" class="form-control">
-                                        @foreach ($categories as $category)
-                                        <option value="{{$category->id}}">{{$category->name}}</option>
-                                        @endforeach
+                                    <select name="category" id="category" class="form-control">
+                                        <option value="" selected>Select</option>
+                                     @if ($categories)
+                                     @foreach ($categories as $category)
+                                     <option value="{{$category->id}}">{{$category->name}}</option>
+                                     @endforeach
+                                     @endif
                                     </select>
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label for="category">Sub category</label>
-                                    <select name="sub_category" id="select" class="form-control">
-                                        @foreach ($sub_cat as $cat)
-                                        <option value="{{$cat->id}}">{{$cat->name}}</option>
-                                        @endforeach
+                                    <select name="sub_category" id="subCategory" class="form-control">
+                                        <option selected>Select</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
                 <div class="pb-5 pt-3">
                     <button class="btn btn-primary">Create</button>
                     <a href="{{route('view-products')}}" class="btn btn-outline-dark ml-3">Cancel</a>
@@ -87,7 +86,34 @@
 @endsection
 @section('js')
 <script type="text/javascript">
+    $.ajaxSetup({
+         headers: {
+            'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+         }
+   });
+   $(document).ready(function(){
+        $("#category").change(function(){
+            var category_id = $(this).val();
 
+            if (category_id == "") {
+                var category_id = 0;
+            } 
 
+            $.ajax({
+                url: '{{ url("/fetch-states/") }}/'+category_id,
+                type: 'post',
+                dataType: 'json',
+                success: function(response) {                    
+                    $('#subCategory').find('option:not(:first)').remove();
+                      if (response['states'].length > 0) {
+                        $.each(response['states'], function(key,value){
+                            $("#subCategory").append("<option value='"+value['id']+"'>"+value['name']+"</option>")
+                        });
+                    } 
+                }
+            });            
+        });   
+    });        
+       
 </script>
 @endsection

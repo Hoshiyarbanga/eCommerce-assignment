@@ -50,9 +50,12 @@
     },
     "extra": {
         "laravel": {
-            "dont-discover": []
+            "dont-discover": [
+                "laravel/horizon"
+            ]
         }
-    },
+    },  
+    
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",

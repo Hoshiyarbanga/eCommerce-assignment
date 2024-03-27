@@ -96,6 +96,8 @@ class UserController extends Controller
         $status->update([
             'status' => $request->status,
         ]);
+        $records = User::selectRaw('TIMESTAMPDIFF(SECOND, updated_at, created_at) AS time_difference_seconds')->get();
+        dd($records);
         return redirect()->back()->with('success',  __('messages.flash.update', ['var' => 'Order']));
     }
 }

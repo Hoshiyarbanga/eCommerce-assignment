@@ -8,6 +8,7 @@
 	<link rel="stylesheet" href="{{asset('assets/css/all.css')}}">
 	<link rel="stylesheet" href="{{asset('assets/css/adminlte.min.css')}}">
 	<link rel="stylesheet" href="{{asset('assets/css/custom.css')}}">
+	<meta name="_token" content="{{ csrf_token() }}">
 </head>
 
 <body class="hold-transition sidebar-mini">

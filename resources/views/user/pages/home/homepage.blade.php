@@ -7,10 +7,8 @@
     <div class="dropdown">
       <div class="">
         <div class="item">
-          <img src="{{asset('assets/images/category/'.$category->image)}}" alt="item">
-          <a href="#">
-            <h5>{{$category->name}}</h5>
-          </a>
+          <a href=""><img src="{{asset('assets/images/category/'.$category->image)}}" alt="item"></a>
+          <h5>{{$category->name}}</h5>
         </div>
       </div>
       <div class="dropdown-content">
