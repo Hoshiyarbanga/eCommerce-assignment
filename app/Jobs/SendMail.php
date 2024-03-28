@@ -2,24 +2,25 @@
 
 namespace App\Jobs;
 
-use App\Models\User;
+use App\Mail\UserVerificationEmail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail;
 
-class ProcessPodcast implements ShouldQueue
+class SendMail implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
      * Create a new job instance.
      */
-    public function __construct()
+    public $users ;
+    public function __construct($users)
     {
-        //
+        $this->users = $users;
     }
 
     /**
@@ -27,8 +28,6 @@ class ProcessPodcast implements ShouldQueue
      */
     public function handle(): void
     {
-        $expiryTime = Carbon::now()->subMinutes(2);
-        User::where('email_verified_at')->whereRaw('TIMESTAMPDIFF(MINUTE, created_at, NOW()) = 1')
-        ->update(['remember_token' => null]);
-        }
+        Mail::to($this->users->email)->send(new UserVerificationEmail($this->users));
+    }
 }

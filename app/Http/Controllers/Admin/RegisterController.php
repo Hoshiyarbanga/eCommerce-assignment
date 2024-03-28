@@ -10,7 +10,9 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 use App\Jobs\Ab;
+use App\Jobs\CheckRememberToken;
 use App\Jobs\ProcessPodcast;
+use App\Jobs\SendMail;
 use Exception;
 
 class RegisterController extends Controller
@@ -32,8 +34,8 @@ class RegisterController extends Controller
             $user['remember_token'] = Str::random(40);
             $users = User::create($user);
             $users->roles()->attach('2');
-            Mail::to($request->email)->send(new UserVerificationEmail($users));
-            dispatch(new ProcessPodcast())->delay(now()->addMinutes(2));
+            SendMail::dispatch($users)->delay(now()->addMinutes(1));
+            CheckRememberToken::dispatch($users)->delay(now()->addMinutes(59));
             return redirect()->route('admin-login');
         } catch (Exception $e) {
             return abort(401);
