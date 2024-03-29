@@ -47,7 +47,7 @@ class CategoryController extends Controller
             $categories = Category::where('id', $id)->first();
             return view('admin.pages.category.edit')->with(compact('categories'));
         } catch (Exception $e) {
-            return abort(401);
+            return view('errors.error.404');
         }
     }
 
@@ -75,7 +75,7 @@ class CategoryController extends Controller
             DB::table('categories')->where('id', $id)->delete();
             return redirect()->back()->with('delete', __('messages.flash.delete', ['var' => 'Category']));
         } catch (Exception $e) {
-            return abort(401);
+            return view('errors.error.404');
         }
     }
 }

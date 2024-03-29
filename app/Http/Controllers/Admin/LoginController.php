@@ -17,7 +17,6 @@ class LoginController extends Controller
 
     public function verify(Request $request)
     {
-        try {
             $request->validate([
                 'email' => 'required',
                 'password' => 'required',
@@ -41,18 +40,11 @@ class LoginController extends Controller
             } else {
                 return redirect()->back()->with('Error', 'Email/Password is incorrect');
             }
-        } catch (Exception $e) {
-            return abort(401);
-        }
     }
 
     public function logout()
     {
-        try {
             Auth::logout();
             return redirect()->route('admin-login');
-        } catch (Exception $e) {
-            return abort(401);
-        }
     }
 }

@@ -36,9 +36,7 @@ use Illuminate\Support\Facades\Session;
 */
 //AIzaSyBwo2Qx83HErr2gxjwcQqqRBtBOaNAakZ8
 //AIzaSyBwo2Qx83HErr2gxjwcQqqRBtBOaNAakZ8
-Route::get('/abc',function(){
-    return view('abc');
-});
+
 
 Route::post('/fetch-states/{id}' , function($category_id = null){
     $states = SubCategory::where('category_id' , $category_id)->get();
@@ -152,7 +150,7 @@ Route::get('/forget-password',[ForgetPasswordController::class,'index'])->name('
 Route::post('/verify-user',[ForgetPasswordController::class,'verify_user'])->name('verify-user');
 Route::get('reset/password/{token}',[ForgetPasswordController::class,'reset_password'])->name('reset-password');
 Route::any('verify/password/{token}',[RegisterController::class,'verifyUser'])->name('vu');
-
+Route::post('/regenrate/verification/link',[RegisterController::class,'regenrateVerificationLink'])->name('xyz');
 Route::post('/set-password', [ForgetPasswordController::class,'update_password'])->name('update-password');
 
 

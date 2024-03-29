@@ -21,6 +21,11 @@
 					{{session()->get('Error')}}
 				</div>
 				@endif
+				@if (session()->has('success'))
+				<div class="alert alert-success" role="alert">
+					{{session()->get('success')}}
+				</div>
+				@endif
 				<form action="{{route('login')}}" method="post">
 					@csrf
 					<div class="input-group mb-3">

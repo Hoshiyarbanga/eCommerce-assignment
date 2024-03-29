@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\CheckPasswordToken;
 use App\Mail\ForgetPasswordEmail;
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -16,6 +18,7 @@ class ForgetPasswordController extends Controller
     }
 
     public function verify_user(Request $request){
+        try{
         $user = User::where('email', $request->email)->first();
         if(!$user){
          return redirect()->back()->with('error' , 'User not exist');
@@ -31,13 +34,17 @@ class ForgetPasswordController extends Controller
          'user'=> $user,
         ];
         Mail::to($request->email)->send(new ForgetPasswordEmail($formData));
+        CheckPasswordToken::dispatch($token)->delay(now()->addMinutes(5));
         return redirect()->back()->with('success', ' Gmail sent Sucessfully');
+    }catch(Exception $e){
+        abort('404');
+    }
     }
 
     public function reset_password($token){
         $token = DB::table('password_reset_tokens')->where('token', $token)->first();
         if (!$token) {
-            return abort(498);
+            abort(404);
         }
         $tokenString = $token->token;
         $escapedToken = htmlspecialchars($tokenString);

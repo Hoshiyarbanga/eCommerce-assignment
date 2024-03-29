@@ -34,7 +34,7 @@ class RegisterController extends Controller
             $user['remember_token'] = Str::random(40);
             $users = User::create($user);
             $users->roles()->attach('2');
-            SendMail::dispatch($users)->delay(now()->addMinutes(1));
+            SendMail::dispatch($users)->delay(now()->addSeconds(5));
             CheckRememberToken::dispatch($users)->delay(now()->addMinutes(59));
             return redirect()->route('admin-login');
         } catch (Exception $e) {
@@ -46,15 +46,29 @@ class RegisterController extends Controller
         try {
             $user = User::where('remember_token', $token)->first();
             if (!$user) {
-                abort(419);
+                return view('auth.regenerateToken');
             }
             $user->update([
                 'status' => 'active',
                 'email_verified_at' => Carbon::now(),
                 'remember_token' => null,
             ]);
+            return redirect()->route('admin-login')->with('success','Account verified Please login');
         } catch (Exception $e) {
             return abort(401);
         }
     }
+
+    public function regenrateVerificationLink(Request $request){
+           try{
+            $users = User::where('email', $request->email)->first();    
+            $users->update([
+                'remember_token' =>  $user['remember_token'] = Str::random(40),
+            ]);
+            SendMail::dispatch($users)->delay(now()->addSeconds(5));
+            return redirect()->back()->with('success','Link sent Successfully chek Email Again');
+        }catch(Exception $e){
+            abort(402);
+        }
+    } 
 }

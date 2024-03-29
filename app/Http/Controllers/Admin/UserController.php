@@ -60,7 +60,6 @@ class UserController extends Controller
                 'name' => 'required',
                 'phone' => 'required',
                 'email' => 'required',
-                'status' => 'required',
             ]);
             $user = User::where('id', $id)->first();
             $roles = Role::get();
@@ -71,7 +70,6 @@ class UserController extends Controller
                 'name' => $request->name,
                 'phone' => $request->phone,
                 'email' => $request->email,
-                'status' => $request->status,
             ]);
             $roles = $request->input('role');
             if (!empty($roles)) {
@@ -87,8 +85,12 @@ class UserController extends Controller
 
     public function delete($id)
     {
+        try{
         DB::table('users')->where('id', $id)->delete();
         return redirect()->back()->with('delete',  __('messages.flash.delete', ['var' => 'User']));
+        }catch(Exception $e){
+            return view('errors.error.424');
+        }
     }
     public function updateStatus(Request $request, $id)
     {
