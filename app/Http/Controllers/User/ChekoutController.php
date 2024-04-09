@@ -7,7 +7,9 @@ use App\Models\Address;
 use App\Models\Cart;
 use App\Models\Order;
 use App\Models\OrderDetail;
+use App\Models\Payment;
 use App\Models\Product;
+use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -26,8 +28,9 @@ class ChekoutController extends Controller
     public function stripePost(Request $request)
     {
         try {
+            dd($request->all());
             DB::beginTransaction();
-            $abc =  $request->validate([
+             $request->validate([
                 'name' => 'required',
                 'mobile' => 'required',
                 'postcode' => 'required',
@@ -45,6 +48,7 @@ class ChekoutController extends Controller
                 'address_id' => $address->id, 'user_id' => Auth::user()->id, 'status' => 'processing',
             ]);
             $carts = Cart::where('user_id', Auth::user()->id)->with('product')->get();
+            $payment = [];
             foreach ($carts as $cart) {
                 OrderDetail::create([
                     'product_id' => $cart->product_id,
@@ -57,8 +61,34 @@ class ChekoutController extends Controller
                     return redirect()->back();
                 }
                 $product->quantity -= $cart->quantity;
-                $product->save();
+                $product->save();  
+                $quantity = $cart['quantity'];
+                $price = $cart['product']['price'];
+                $vander = $cart['product']['user_id'];
+                $total = $quantity * $price ;
+                if(array_key_exists($vander,$payment)){
+                    $payment[$vander] += $total;
+                }else{
+                $payment[$vander] = $total;
+                }                     
             }
+            foreach($payment as $key => $amount){
+                $aaa = User::where('id',$key)->get();
+                print_r($aaa->toArray());
+                print_r($aaa[0]['commission']);
+                $admin_commission = ($amount/ 100) * $aaa[0]['commission'];
+                echo "<pre>";
+                $vander_amount = $amount - $admin_commission;
+                print_r($admin_commission);
+                Payment::create([
+                    'order_id'=>$order['id'],
+                    'vander_id'=>$key,
+                    'payment'=>$amount,
+                    'admin_commission'=>$admin_commission,
+                    'vander_amount'=> $vander_amount,
+                ]);
+            }
+           
             Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
             Stripe\Charge::create([
                 "amount" => Session::get('amount'),

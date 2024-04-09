@@ -46,6 +46,7 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::where('id', $id)->first();
+        // dd($user);
         $roles = Role::get();
         $user_role = $user->roles;
         return view('admin.pages.users.edit')->with(compact('user', 'roles', 'user_role'));
@@ -70,6 +71,7 @@ class UserController extends Controller
                 'name' => $request->name,
                 'phone' => $request->phone,
                 'email' => $request->email,
+                'commission'=> $request->commission,
             ]);
             $roles = $request->input('role');
             if (!empty($roles)) {

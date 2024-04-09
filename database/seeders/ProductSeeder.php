@@ -21,7 +21,7 @@ class ProductSeeder extends Seeder
             'quantity'=>'10',
             'category'=>'1',
             'sub_category'=>'1',
-            'user_id'=>'1',
+            'user_id'=>'3',
             'status'=>'active',
         ]);
         $product = Product::create([
@@ -32,7 +32,7 @@ class ProductSeeder extends Seeder
             'quantity'=>'10',
             'category'=>'1',
             'sub_category'=>'2',
-            'user_id'=>'1',
+            'user_id'=>'3',
             'status'=>'active',
         ]);
 
@@ -45,7 +45,7 @@ class ProductSeeder extends Seeder
             'quantity'=>'10',
             'category'=>'2',
             'sub_category'=>'3',
-            'user_id'=>'1',
+            'user_id'=>'3',
             'status'=>'active',
         ]);
         $product = Product::create([
@@ -56,7 +56,7 @@ class ProductSeeder extends Seeder
             'quantity'=>'10',
             'category'=>'2',
             'sub_category'=>'4',
-            'user_id'=>'1',
+            'user_id'=>'3',
             'status'=>'active',
         ]);
         $product = Product::create([
@@ -67,7 +67,7 @@ class ProductSeeder extends Seeder
             'quantity'=>'100',
             'category'=>'3',
             'sub_category'=>'5',
-            'user_id'=>'1',
+            'user_id'=>'2',
             'status'=>'active',
         ]);
         $product = Product::create([

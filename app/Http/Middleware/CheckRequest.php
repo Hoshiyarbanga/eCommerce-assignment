@@ -15,15 +15,21 @@ class CheckRequest
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(isset($request)){
+        if (isset($request)) {
             $abc = $request->all();
-            foreach($abc as $key => $value){
-                if(preg_match('/-/', $key)){
-                $abcd = str_replace('-', '_', $key);
-                $abc[$abcd] = $value;
-                unset($abc[$key]);
-                }
-            }   
+            // foreach($abc as $key => $value){
+            //     if(preg_match('/-/', $key)){
+            //     $abcd = str_replace('-', '_', $key);
+            //     $abc[$abcd] = $value;
+            //     unset($abc[$key]);
+            //     }
+            // }   
+            $abc = array_combine(
+                array_map(function ($key) {
+                    return str_replace('-', '_', $key);
+                }, array_keys($abc)),
+                $abc
+            );
         }
         $request->replace($abc);
         return $next($request);

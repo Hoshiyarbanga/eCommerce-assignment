@@ -30,10 +30,17 @@
                                     placeholder="Email">
                             </div>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="phone">Phone</label>
                                 <input type="text" name="phone" id="phone" value="{{$user->phone}}" class="form-control"
+                                    placeholder="Phone">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="phone">Commsion</label>
+                                <input type="text" name="commission" id="commission" value="{{$user->commission}}" class="form-control"
                                     placeholder="Phone">
                             </div>
                         </div>

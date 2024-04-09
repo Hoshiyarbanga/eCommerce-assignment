@@ -27,6 +27,7 @@ class User extends Authenticatable
         'status',
         'remember_token',
         'email_verified_at',
+        'commission',
     ];
 
     /**
@@ -47,4 +48,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+    public function user_product()
+    {
+        return $this->hasMany(Product::class);
+    }
 }

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('password');
             $table->enum('status', ['active', 'inactive','block'])->default('inactive');
             $table->rememberToken();
+            $table->integer('commission')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamps();
         });
