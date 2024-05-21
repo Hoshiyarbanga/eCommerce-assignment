@@ -30,12 +30,12 @@ class RegisterController extends Controller
                 'phone' => 'required',
                 'email' => 'required',
                 'password' => 'required',
-            ]);
+            ]);     
             $user['remember_token'] = Str::random(40);
             $users = User::create($user);
             $users->roles()->attach('2');
             SendMail::dispatch($users)->delay(now()->addSeconds(5));
-            CheckRememberToken::dispatch($users)->delay(now()->addMinutes(59));
+            CheckRememberToken::dispatch($users)->delay(now()->addMinutes(2));
             return redirect()->route('admin-login');
         } catch (Exception $e) {
             return abort(401);

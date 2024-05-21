@@ -73,13 +73,9 @@ class ChekoutController extends Controller
                 }                     
             }
             foreach($payment as $key => $amount){
-                $aaa = User::where('id',$key)->get();
-                print_r($aaa->toArray());
-                print_r($aaa[0]['commission']);
-                $admin_commission = ($amount/ 100) * $aaa[0]['commission'];
-                echo "<pre>";
+                $commissionPercent = User::where('id',$key)->get();
+                $admin_commission = ($amount/ 100) * $commissionPercent[0]['commission'];
                 $vander_amount = $amount - $admin_commission;
-                print_r($admin_commission);
                 Payment::create([
                     'order_id'=>$order['id'],
                     'vander_id'=>$key,

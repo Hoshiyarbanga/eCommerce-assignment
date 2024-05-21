@@ -11,7 +11,7 @@
 </section>
 <section class="content">
     <div class="container-fluid">
-        <form action="{{route('update-user', ['id' => $user->id])}}" method="POST">
+        <form action="{{route('update-user' )}}" method="POST">
             @csrf
             <div class="card">
                 <div class="card-body">

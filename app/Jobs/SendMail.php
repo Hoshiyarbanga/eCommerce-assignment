@@ -17,11 +17,11 @@ class SendMail implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public $users ;
-    public function __construct($users)
-    {
-        $this->users = $users;
-    }
+        public $users ;
+        public function __construct($users)
+        {
+            $this->users = $users;
+        }
 
     /**
      * Execute the job.
